@@ -1,11 +1,10 @@
 import App from "next/app";
 import { useState } from "react";
-import ky from "~/api/ky";
-
-import "~/styles/globals.css";
-import AuthContext from "~/contexts/AuthContext";
-import { store } from "~/app/store";
-import { Provider } from "react-redux";
+import ky from "../api/ky";
+import "antd/dist/antd.css";
+//import "~/styles/globals.css";
+import "../styles/globals.css";
+import AuthContext from "..//contexts/AuthContext";
 
 NextApp.getInitialProps = async (ctx) => {
   // Is SSR
@@ -25,13 +24,11 @@ NextApp.getInitialProps = async (ctx) => {
 
 function NextApp({ Component, pageProps, data }) {
   const [authUser] = useState(data);
-
-  return (
-    <Provider store={store}>
+  const getLayout = Component.getLayout || ((page) => page);
+  return getLayout(
       <AuthContext.Provider value={authUser}>
         <Component {...pageProps} />
       </AuthContext.Provider>
-    </Provider>
   );
 }
 

@@ -11,8 +11,11 @@ module.exports = {
       },
       colors: {
         'default': "#094067",
-        'primary': "#3da9fc",
-        'white': "#fffffe",
+        'primary': "F9FBFD", //mau side bar
+        'secondary': "#F9FBFD", //mau background
+        'third': "#F3F3F9", //mau background
+        'green-btn': "#0AB39C",
+        'white': "#ffffff",
         'danger': "#ef4565",
         'warning': "#ffc53d",
         'success': "#73c42d",

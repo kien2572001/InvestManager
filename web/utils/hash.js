@@ -26,3 +26,17 @@ export function setUserInfo(userInfo) {
   let encodeUserInfo = encode(temp);
   localStorage.setItem("userInfo", encodeUserInfo);
 }
+
+export function setToken(token) {
+  let encodeToken = encode(token);
+  localStorage.setItem("token", encodeToken);
+}
+
+export function getToken() {
+  let token = localStorage.getItem("token");
+  if (token) {
+    let decodeToken = decode(token);
+    return decodeToken;
+  }
+  return null;
+}

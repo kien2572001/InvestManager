@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "~/api/axios";
 import { useEffect, useState } from "react";
-import { setUserInfo } from "~/utils/hash";
+import { setUserInfo,setToken,getToken } from "~/utils/hash";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -13,10 +13,12 @@ const Login = () => {
         email: email,
         password: password,
       });
-      if (res){
+      //console.log(res);
+      if (res.data.status === "success") {
         console.log("Login success");
         let userInfo = res.data.user;
         setUserInfo(userInfo);
+        setToken(res.data.authorisation.token);
       }
     };
     callApiLogin();
