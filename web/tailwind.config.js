@@ -14,7 +14,7 @@ module.exports = {
         'primary': "F9FBFD", //mau side bar
         'secondary': "#F9FBFD", //mau background
         'third': "#F3F3F9", //mau background
-        'green-btn': "#0AB39C",
+        'greenup': "#0AB39C",
         'white': "#ffffff",
         'danger': "#ef4565",
         'warning': "#ffc53d",

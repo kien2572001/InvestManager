@@ -32,7 +32,7 @@ export async function getServerSideProps(context) {
   // let res2 = await client.myTrades('CHZUSDT');
   // console.log(res2.data);
   //get history order
-  console.time("get history order");
+  //console.time("get history order");
   for (let i = 0; i < data.length; i++) {
     if (data[i].coin != "USDT" && data[i].coin != "BUSD") {
       let res2 = await client.myTrades(data[i].coin + "BUSD");
@@ -40,25 +40,29 @@ export async function getServerSideProps(context) {
       let temp = [...res2.data];
       let averagePrice = 0;
       let totalAmount = 0;
-      let totalCost = 0;
       for (let j = 0; j < temp.length; j++) {
         let qty = parseFloat(temp[j].qty);
         let price = parseFloat(temp[j].price);
         if (temp[j].isBuyer) {
+          averagePrice =
+            (averagePrice * totalAmount + qty * price) / (totalAmount + qty);
           totalAmount += qty;
-          totalCost += qty * price;
-        }
-        else {
-          totalAmount -= qty;
-          totalCost -= qty * price;
+        } else {
+          if (qty >= totalAmount) {
+            averagePrice = 0;
+            totalAmount = 0;
+          } else {
+            averagePrice =
+              (averagePrice * totalAmount - qty * price) / (totalAmount - qty);
+            totalAmount -= qty;
+          }
         }
       }
-      averagePrice = totalCost / totalAmount;
       data[i].averagePrice = averagePrice;
       data[i].history = temp;
     }
   }
-  console.timeEnd("get history order");
+  //console.timeEnd("get history order");
   return {
     props: {
       data,

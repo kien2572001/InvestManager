@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from "react";
 import DashboardLayout from "../../layouts/DashboardLayout";
 import SpotTable from "./SpotTable.js";
+import PortfolioChart from "./PorfolioChart";
+import {
+  UpCircleOutlined,
+  DownCircleOutlined,
+  DollarOutlined,
+} from "@ant-design/icons";
+import Image from "next/image";
 
-export default function Portfolio({ data,others }) {
+export default function Portfolio({ data, others }) {
   const [estimatedBalance, setEstimatedBalance] = React.useState(0);
   useEffect(() => {
     console.log(data);
@@ -18,26 +25,75 @@ export default function Portfolio({ data,others }) {
       <div className="w-full h-full flex flex-col items-center">
         {/* Header cua Portfolio */}
         <div className="w-full flex items-center justify-between py-4 px-5">
-          {/* Estimated Balance */}
-          <div className="">
-            <p className="text-gray-500 text-sm font-bold">Estimated Balance</p>
-            <div className="flex items-center">
-              <p className="text-sm text-gray-500 font-bold mr-3">
-                $ {(estimatedBalance/others.btcPrice).toFixed(5)} BTC{" "}
-              </p>
-              <p className="text-sm text-gray-500 font-bold">≈</p>
-              <p className="text-sm text-gray-500 ml-3">${estimatedBalance.toFixed(2)}</p>
+          {/* Porfolio chart  */}
+          <PortfolioChart portfolio={data} />
+          <div className="flex items-center justify-between py-4 px-5">
+            {/* Total Balance */}
+            <div className="w-[310px] h-[85px] flex items-center bg-white justify-between rounded shadow">
+              <div className="flex">
+                <div className="h-full w-[85px] flex items-center justify-center">
+                  <div className="">
+                    <DollarOutlined className="text-2xl" />
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <p className="font-bold">TOTAL VALUE</p>
+                  <p className="text-xl font-bold">
+                    ${estimatedBalance.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col mr-5">
+                <div className="rounded-md bg-green-100 p-[3px]">
+                  <p className="text-green-500 font-medium text-xs">+6.24%</p>
+                </div>
+              </div>
             </div>
-          </div>
-          {/* Today PNL */}
-          <div className="">
-            <p className="text-gray-500 text-sm font-bold">Today PNL</p>
-            <div className="flex flex-col items-center">
-              <p className="text-sm text-gray-500 font-bold ">-$6.05</p>
-              <p className="text-sm text-gray-500 font-bold">-0.83%</p>
+            {/* Total change */}
+            <div className="w-[310px] h-[85px] flex items-center bg-white justify-between rounded shadow">
+              <div className="flex">
+                <div className="h-full w-[85px] flex items-center justify-center">
+                  <div className="">
+                    <DollarOutlined className="text-2xl" />
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <p className="font-bold">TOTAL VALUE</p>
+                  <p className="text-xl font-bold">
+                    ${estimatedBalance.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col mr-5">
+                <div className="rounded-md bg-green-100 p-[3px]">
+                  <p className="text-green-500 font-medium text-xs">+6.24%</p>
+                </div>
+              </div>
+            </div>
+            {/*Day change*/}
+            <div className="w-[310px] h-[85px] flex items-center bg-white justify-between rounded shadow">
+              <div className="flex">
+                <div className="h-full w-[85px] flex items-center justify-center">
+                  <div className="">
+                    <DollarOutlined className="text-2xl" />
+                  </div>
+                </div>
+                <div className="flex flex-col">
+                  <p className="font-bold">TOTAL VALUE</p>
+                  <p className="text-xl font-bold">
+                    ${estimatedBalance.toFixed(2)}
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col mr-5">
+                <div className="rounded-md bg-green-100 p-[3px]">
+                  <p className="text-green-500 font-medium text-xs">+6.24%</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
+
         {/* Table */}
         <SpotTable data={data} />
       </div>

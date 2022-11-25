@@ -3,12 +3,23 @@ import Table from "antd/lib/table";
 
 export default function SpotTable({ data }) {
   const dataSources = data.map((item, index) => {
+    function financial(x) {
+      return Number.parseFloat(x).toFixed(2);
+    }
+    let profitLoss = financial(
+      (1 - financial(item.price) / financial(item.averagePrice)) * 100
+    );
+    if (profitLoss > 0) {
+      profitLoss = "-" + profitLoss + "%";
+    } else profitLoss = "+" + profitLoss + "%";
     return {
       key: index,
       coin: item.coin,
-      free: item.free,
-      price: item.price,
-      total: item.free * item.price,
+      free: financial(item.free),
+      price: financial(item.price),
+      total: financial(item.free * item.price),
+      averagePrice: financial(item.averagePrice),
+      profitLoss: profitLoss,
     };
   });
 
@@ -24,20 +35,28 @@ export default function SpotTable({ data }) {
       key: "total",
     },
     {
+      title: "Available",
+      dataIndex: "free",
+      key: "free",
+    },
+    {
       title: "Price",
       dataIndex: "price",
       key: "price",
     },
     {
-      title: "Available",
-      dataIndex: "free",
-      key: "free",
+      title: "Average Price",
+      dataIndex: "averagePrice",
+      key: "averagePrice",
+    },
+    {
+      title: "Profit/Loss",
+      dataIndex: "profitLoss",
+      key: "profitLoss",
     },
   ];
 
-  const handleSearch = ()=>{
-    
-  }
+  const handleSearch = () => {};
 
   return (
     <div className="w-full h-full flex flex-col items-center px-6">

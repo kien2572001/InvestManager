@@ -1,7 +1,7 @@
 import React from "react";
-import axios from "~/api/axios";
+import axios from "../../api/axios";
 import { useEffect, useState } from "react";
-import { setUserInfo,setToken,getToken } from "~/utils/hash";
+import { setUserInfo,setToken,getToken } from "../../utils/hash";
 
 const Login = () => {
   const [email, setEmail] = useState("");
