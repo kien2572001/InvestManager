@@ -7,7 +7,7 @@ import {
   DownCircleOutlined,
   DollarOutlined,
 } from "@ant-design/icons";
-import Image from "next/image";
+import CandleChart from "./CandleChart";
 
 export default function Portfolio({ data, others }) {
   const [estimatedBalance, setEstimatedBalance] = React.useState(0);
@@ -16,7 +16,7 @@ export default function Portfolio({ data, others }) {
     let total = 0;
     //SUM array
     data.forEach((item) => {
-      total += item.free * item.price;
+      total += Number.parseFloat(item.free) * Number.parseFloat(item.price)+ Number.parseFloat(item.locked) * Number.parseFloat(item.price);
     });
     setEstimatedBalance(total);
   }, []);
@@ -24,12 +24,13 @@ export default function Portfolio({ data, others }) {
     <DashboardLayout>
       <div className="w-full h-full flex flex-col items-center">
         {/* Header cua Portfolio */}
-        <div className="w-full flex items-center justify-between py-4 px-5">
+        <div className="w-full grid grid-cols-4 gap-8 py-4 px-5">
           {/* Porfolio chart  */}
           <PortfolioChart portfolio={data} />
-          <div className="flex items-center justify-between py-4 px-5">
-            {/* Total Balance */}
-            <div className="w-[310px] h-[85px] flex items-center bg-white justify-between rounded shadow">
+          {/* <div className="flex items-center justify-between py-4 px-5"> */}
+          {/* Total Balance */}
+          <div className="grid grid-cols-3 col-span-3 gap-8">
+            <div className=" h-[85px] flex items-center bg-white justify-between rounded shadow  ">
               <div className="flex">
                 <div className="h-full w-[85px] flex items-center justify-center">
                   <div className="">
@@ -50,7 +51,7 @@ export default function Portfolio({ data, others }) {
               </div>
             </div>
             {/* Total change */}
-            <div className="w-[310px] h-[85px] flex items-center bg-white justify-between rounded shadow">
+            <div className=" h-[85px] flex items-center bg-white justify-between rounded shadow  ">
               <div className="flex">
                 <div className="h-full w-[85px] flex items-center justify-center">
                   <div className="">
@@ -71,7 +72,7 @@ export default function Portfolio({ data, others }) {
               </div>
             </div>
             {/*Day change*/}
-            <div className="w-[310px] h-[85px] flex items-center bg-white justify-between rounded shadow">
+            <div className=" h-[85px] flex items-center bg-white justify-between rounded shadow  ">
               <div className="flex">
                 <div className="h-full w-[85px] flex items-center justify-center">
                   <div className="">
@@ -91,9 +92,12 @@ export default function Portfolio({ data, others }) {
                 </div>
               </div>
             </div>
+            {/* </div> */}
+            <div className="col-span-3">
+              <CandleChart />
+            </div>
           </div>
         </div>
-
         {/* Table */}
         <SpotTable data={data} />
       </div>

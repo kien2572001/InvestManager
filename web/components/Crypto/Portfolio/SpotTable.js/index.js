@@ -2,26 +2,38 @@ import React, { useEffect } from "react";
 import Table from "antd/lib/table";
 
 export default function SpotTable({ data }) {
-  const dataSources = data.map((item, index) => {
-    function financial(x) {
-      return Number.parseFloat(x).toFixed(2);
-    }
-    let profitLoss = financial(
-      (1 - financial(item.price) / financial(item.averagePrice)) * 100
-    );
-    if (profitLoss > 0) {
-      profitLoss = "-" + profitLoss + "%";
-    } else profitLoss = "+" + profitLoss + "%";
-    return {
-      key: index,
-      coin: item.coin,
-      free: financial(item.free),
-      price: financial(item.price),
-      total: financial(item.free * item.price),
-      averagePrice: financial(item.averagePrice),
-      profitLoss: profitLoss,
-    };
-  });
+  const dataSources = data
+    .map((item, index) => {
+      function financial(x) {
+        return Number.parseFloat(x).toFixed(2);
+      }
+      let profitLoss =
+        (Number.parseFloat(item.price) / Number.parseFloat(item.averagePrice) -
+          1) *
+        100;
+      if (isFinite(profitLoss)===false) {
+        profitLoss = "0.00%";
+      } else if (profitLoss < 0) {
+        profitLoss = profitLoss.toFixed(2) + "%";
+      } else profitLoss = "+" + profitLoss.toFixed(2) + "%";
+      if (item.coin === "USDT " || item.coin === "BUSD") {
+        profitLoss = "0.00%";
+      }
+      return {
+        key: index,
+        coin: item.coin,
+        free: financial(item.free),
+        price: financial(item.price),
+        total: financial(
+          Number.parseFloat(item.free) * Number.parseFloat(item.price) +
+            Number.parseFloat(item.locked) * Number.parseFloat(item.price)
+        ),
+        averagePrice: financial(item.averagePrice),
+        profitLoss: profitLoss,
+        locked: financial(item.locked),
+      };
+    })
+    .sort((a, b) => b.total - a.total);
 
   const columns = [
     {
@@ -30,7 +42,7 @@ export default function SpotTable({ data }) {
       key: "coin",
     },
     {
-      title: "Total",
+      title: "Total(USD)",
       dataIndex: "total",
       key: "total",
     },
@@ -38,6 +50,11 @@ export default function SpotTable({ data }) {
       title: "Available",
       dataIndex: "free",
       key: "free",
+    },
+    {
+      title: "In Order",
+      dataIndex: "locked",
+      key: "locked",
     },
     {
       title: "Price",
@@ -59,16 +76,16 @@ export default function SpotTable({ data }) {
   const handleSearch = () => {};
 
   return (
-    <div className="w-full h-full flex flex-col items-center px-6">
+    <div className="w-full h-full flex flex-col items-center px-6 ">
       {/* Search bar */}
-      <div className="w-full">
+      {/* <div className="w-full">
         <input
           type="text"
           placeholder="Search Coin"
           className="w-[200px] h-10 px-4 border border-gray-300 rounded-md"
         />
-      </div>
-      <div className="w-full">
+      </div> */}
+      <div className="w-full ">
         <Table dataSource={dataSources} columns={columns} />
       </div>
     </div>

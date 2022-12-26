@@ -3,7 +3,7 @@ import Navbar from "./Navbar";
 
 export default function DashboardLayout({ children }) {
   return (
-    <div className="flex h-screen bg-secondary dark:bg-gray-900">
+    <div className="flex h-full bg-secondary dark:bg-gray-900">
       <div className="w-[249px] h-screen border-r-[1px] border-[#e3ebf6]">
         <Sidebar />
       </div>

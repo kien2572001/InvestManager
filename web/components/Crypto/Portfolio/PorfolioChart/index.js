@@ -26,11 +26,12 @@ export default function PortfolioChart({ portfolio }) {
         label: item.coin,
         total:
           item.coin === "USDT" || item.coin === "BUSD"
-            ? Number.parseFloat(item.free)
-            : item.free * item.price,
-        free: item.free,
+            ? Number.parseFloat(item.free) + Number.parseFloat(item.locked)
+            : Number.parseFloat(item.free) * Number.parseFloat(item.price) + Number.parseFloat(item.locked) * Number.parseFloat(item.price),
+        free: Number.parseFloat(item.free) + Number.parseFloat(item.locked),
         averagePrice: item.averagePrice,
         price: item.price,
+        name: item.name,
       };
     });
     arr.sort((a, b) => b.total - a.total);
@@ -83,7 +84,7 @@ export default function PortfolioChart({ portfolio }) {
     });
   }, []);
   return (
-    <div className="flex flex-col p-4 bg-white rounded shadow">
+    <div className="flex flex-col p-4 bg-white rounded shadow col-span-1">
       <p>My Porfolio</p>
       <Doughnut data={chartData} />
       {/* Danh sach coin trong chart */}
@@ -111,7 +112,7 @@ export default function PortfolioChart({ portfolio }) {
                     )}
                   </div>
                   <div className="flex flex-col ml-3">
-                    <p className="font-semibold">Bitcoin</p>
+                    <p className="font-semibold">{item.label}</p>
                     <div className="text-xs">
                       <span
                         className="h-[8px] w-[8px] inline-block rounded-full mr-2"
